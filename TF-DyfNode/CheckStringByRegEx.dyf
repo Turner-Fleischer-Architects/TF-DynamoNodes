@@ -1,0 +1,45 @@
+<Workspace Version="1.3.4.6666" X="31.9725" Y="37.3275" zoom="0.8425" ScaleFactor="1" Name="CheckStringByRegEx" Description="Validates a list of strings against a regular expression and returns true if successful, otherwise returns false." ID="d4bafe4d-4631-4bbc-8aab-4637d7d01b12" Category="TFNodes.ModelAudit">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b2e02965-205b-4b47-a404-79680008c454" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="78" y="213" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="RegularExpression" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="a36d5c8f-4eb1-4ff1-a625-ef8db075d4b7" type="PythonNodeModels.PythonNode" nickname="Python Script" x="343" y="240" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+import re
+
+regexstring = IN[0]
+inputList = IN[1]
+
+l = []
+
+for i in inputList:
+	if re.match(regexstring, i, 0):
+		l.Add(True)
+	else:
+		l.Add(False)
+
+OUT = l</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="15eeece7-63cb-4deb-9e40-0f5ec26e8d92" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="572" y="242" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Results" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="6b16206f-783f-4067-a28a-59c6ae0e17b7" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="78" y="297" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="StringsToCheck:string[]" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="b2e02965-205b-4b47-a404-79680008c454" start_index="0" end="a36d5c8f-4eb1-4ff1-a625-ef8db075d4b7" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a36d5c8f-4eb1-4ff1-a625-ef8db075d4b7" start_index="0" end="15eeece7-63cb-4deb-9e40-0f5ec26e8d92" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6b16206f-783f-4067-a28a-59c6ae0e17b7" start_index="0" end="a36d5c8f-4eb1-4ff1-a625-ef8db075d4b7" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

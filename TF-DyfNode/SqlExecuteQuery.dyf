@@ -1,0 +1,78 @@
+<Workspace Version="1.3.4.6666" X="46.2903948197064" Y="231.583937479426" zoom="0.555002712934566" ScaleFactor="1" Name="SqlExecuteQuery" Description="Connects to an SQL server, executes a query (SELECT statement) and returns the results as a list" ID="37d4bbdf-9aed-47d5-9269-5bb22f6322b2" Category="TFNodes.ModelAudit">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="6c2572e1-511d-419f-a8c5-feb5dca8a9c9" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="829.167047559177" y="29.8908844970969" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="records" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4417d405-30b4-433b-922c-d026c4957945" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="277.167047559177" y="0.890884497096948" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="connectionString: string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c59e2d9f-88c2-41a8-b761-9b2eb999337c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="277.167047559177" y="84.8908844970969" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="sqlStatement: string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="1a6863f8-2a2b-4961-bfb9-9562c991b95e" type="PythonNodeModels.PythonNode" nickname="Python Script" x="591.1020995626" y="20.8419184813287" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('System.Data')
+from System.Data.SqlClient import *
+
+connectionString = IN[0]
+sqlStatement = IN[1]
+	
+connection = SqlConnection(connectionString)
+connection.Open()
+command = connection.CreateCommand()
+command.CommandText = sqlStatement
+reader = command.ExecuteReader()
+
+countOfColumns = reader.FieldCount
+
+#Generate the list output from SQL dataset
+dataOutput=[]
+while reader.Read():
+	record=[]
+	for i in range(0, countOfColumns):
+		record.Add(reader[i])
+	#reader.GetValues(row)
+	dataOutput.Add(record)
+
+connection.Close()
+
+#Assign your output to the OUT variable.
+OUT= dataOutput
+</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.StringInput guid="3c97607d-40b7-447d-9755-6eae861ee50a" type="CoreNodeModels.Input.StringInput" nickname="SQL Statement" x="-48.051700640246" y="66.6347279060956" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>SELECT Preferredname+' '+lastname AS fullname,
+initials,
+workemail
+FROM dpdemployees
+WHERE isactive=1
+AND initials IS NOT NULL
+ORDER BY fullname</System.String>
+      <System.String value="SELECT Preferredname+' '+lastname AS fullname,&#xD;&#xA;initials,&#xD;&#xA;workemail&#xD;&#xA;FROM dpdemployees&#xD;&#xA;WHERE isactive=1&#xD;&#xA;AND initials IS NOT NULL&#xD;&#xA;ORDER BY fullname" />
+    </CoreNodeModels.Input.StringInput>
+    <CoreNodeModels.Input.StringInput guid="ef08a205-2d8a-4a44-9658-e68d48ae8b7c" type="CoreNodeModels.Input.StringInput" nickname="Connection String" x="-51.7635618858603" y="-38.6195304564746" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Server=tf-infocus\clearview;
+Database=TurnerFleischer;
+Uid=automation;
+Password=automation123;</System.String>
+      <System.String value="Server=tf-infocus\clearview;&#xD;&#xA;Database=TurnerFleischer;&#xD;&#xA;Uid=automation;&#xD;&#xA;Password=automation123;" />
+    </CoreNodeModels.Input.StringInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="4417d405-30b4-433b-922c-d026c4957945" start_index="0" end="1a6863f8-2a2b-4961-bfb9-9562c991b95e" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c59e2d9f-88c2-41a8-b761-9b2eb999337c" start_index="0" end="1a6863f8-2a2b-4961-bfb9-9562c991b95e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1a6863f8-2a2b-4961-bfb9-9562c991b95e" start_index="0" end="6c2572e1-511d-419f-a8c5-feb5dca8a9c9" end_index="0" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="ac4e5220-cb82-48b9-92c7-26aa4d37bba3" text="Copy and paste the following string nodes into your script.&#xD;&#xA;&#xD;&#xA;Modify them to your liking." x="-52.6831524182566" y="-116.709321340223" />
+  </Notes>
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

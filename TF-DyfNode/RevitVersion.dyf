@@ -1,0 +1,39 @@
+<Workspace Version="1.3.4.6666" X="0" Y="0" zoom="1" ScaleFactor="1" Name="RevitVersion" Description="Get the version of main revit file and links" ID="86b02153-0301-4aa0-b760-c14234b00fe6" Category="TFNodes.ModelAudit">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="93413537-14be-40eb-9cb6-f3e920aea668" type="PythonNodeModels.PythonNode" nickname="Python Script" x="286" y="368" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="0">
+      <Script>import clr
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+OUT = app.VersionName, app.VersionNumber, app.VersionBuild, app.Language.ToString()</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="49ac369c-48dd-4370-9534-d7eefe335251" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="434.60099032773" y="372.218333333331" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="seq[0];&#xA;seq[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="7d5c9c95-2f3a-4119-b794-3da46a67350a" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="630.60099032773" y="368" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="MainRevitFile" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="9035f86a-0d27-4d23-afeb-15d1de66d1e4" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="630.60099032773" y="518" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="RevitVersion" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="93413537-14be-40eb-9cb6-f3e920aea668" start_index="0" end="49ac369c-48dd-4370-9534-d7eefe335251" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="49ac369c-48dd-4370-9534-d7eefe335251" start_index="0" end="7d5c9c95-2f3a-4119-b794-3da46a67350a" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="49ac369c-48dd-4370-9534-d7eefe335251" start_index="1" end="9035f86a-0d27-4d23-afeb-15d1de66d1e4" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="649913.875" eyeY="907931.3125" eyeZ="-246603.03125" lookX="132424.75" lookY="-405336.46875" lookZ="400166.34375" upX="0.164152652025223" upY="0.852640151977539" upZ="0.496042996644974" />
+  </Cameras>
+</Workspace>

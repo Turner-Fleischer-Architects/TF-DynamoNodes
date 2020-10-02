@@ -1,0 +1,64 @@
+<Workspace Version="1.3.4.6666" X="-109.740856536814" Y="156.244377875" zoom="0.593767140625" ScaleFactor="1" Name="SqlExecuteNonQuery" Description="Executes an SQL command (INSERT, UPDATE, DELETE, etc). Takes a single statement or list and returns the number of rows affected by each statement." ID="50e78167-c31c-4f91-90f4-4e8a7caac15e" Category="TFNodes.ModelAudit">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.StringInput guid="f9287ba7-2ab0-4ba0-ae21-39758b2025aa" type="CoreNodeModels.Input.StringInput" nickname="Connection String" x="206" y="344" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Server=station259\sqlexpress;
+Database=DPdb; Trusted_Connection=True;</System.String>
+      <System.String value="Server=station259\sqlexpress;&#xD;&#xA;Database=DPdb; Trusted_Connection=True;" />
+    </CoreNodeModels.Input.StringInput>
+    <CoreNodeModels.Input.StringInput guid="86c0d5cc-6f69-44d8-a23f-11dcc7c72a3b" type="CoreNodeModels.Input.StringInput" nickname="SQL Statement" x="206" y="458" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>INSERT INTO auditEvents (idAuditReport, auditType, value) VALUES (1, 'Test', 1.0)</System.String>
+      <System.String value="INSERT INTO auditEvents (idAuditReport, auditType, value) VALUES (1, 'Test', 1.0)" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="07ba1efb-f800-4a12-ab4f-b831aeda8b89" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="570.191351586545" y="387.045404810504" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="connectionString: string;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="2e34d565-e5f0-4c5e-9282-38afba9749bf" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="570.191351586545" y="471.045404810504" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="sqlStatements: string[];" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="61669251-dcf6-41bb-908e-37f662f665c1" type="PythonNodeModels.PythonNode" nickname="Python Script" x="907.215135363411" y="416.045404810504" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('System.Data')
+from System.Data.SqlClient import *
+
+connectionString = IN[0]
+sqlStatements = IN[1]
+	
+connection = SqlConnection(connectionString)
+connection.Open()
+
+#Generate the list output from SQL dataset
+dataOutput=[]
+
+for statement in sqlStatements:
+	command = connection.CreateCommand()
+	command.CommandText = statement
+	dataOutput.Add(command.ExecuteNonQuery())
+
+connection.Close()
+
+#Assign your output to the OUT variable.
+OUT= dataOutput
+</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="483b76a2-aa4c-42d0-b5fa-daf34704cc75" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1130.19135158654" y="416.045404810504" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="rows;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="07ba1efb-f800-4a12-ab4f-b831aeda8b89" start_index="0" end="61669251-dcf6-41bb-908e-37f662f665c1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2e34d565-e5f0-4c5e-9282-38afba9749bf" start_index="0" end="61669251-dcf6-41bb-908e-37f662f665c1" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="61669251-dcf6-41bb-908e-37f662f665c1" start_index="0" end="483b76a2-aa4c-42d0-b5fa-daf34704cc75" end_index="0" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="4b205286-631e-4859-9239-e3a427b25ceb" text="Copy and paste the following string nodes into your script.&#xD;&#xA;&#xD;&#xA;Modify them to your liking." x="206" y="261" />
+  </Notes>
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
